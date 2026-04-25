@@ -7,8 +7,8 @@ const DropDown = ({ xPosition, yPosition, characters }) => {
         rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5
         focus:outline-none"
         style={{
-            left: xPosition,
-            top: yPosition + 15
+            left: `${xPosition}%`,
+            top: `${yPosition}%`
         }}
         role="menu"
     >

@@ -1,6 +1,5 @@
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import GameImage from '../assets/game.webp'
-import useMousePosition from '../utils/useMousePosition'
 import Waldo from '../assets/waldo.png'
 import Odlaw from '../assets/odlaw.png'
 import Wizard from '../assets/wizard.png'
@@ -8,18 +7,24 @@ import DropDown from '../components/DropDown'
 
 
 const Game = () => {
-    const position = useMousePosition()
-    const x = position.x
-    const y = position.y
     const [clicked, setClicked] = useState(false)
     const [xPosition, setXPosition] = useState(0)
     const [yPosition, setYPosition] = useState(0)
     const [isOpen, setIsOpen] = useState(false)
+    const imageRef = useRef(null)
 
-    const setClickedPosition = () => {
-        console.log(x, y)
-        setXPosition(x)
-        setYPosition(y)
+    const setClickedPosition = (e) => {
+        const rect = imageRef.current.getBoundingClientRect()
+
+        const x = e.clientX - rect.left
+        const y = e.clientY - rect.top
+
+        const xPercent = (x / rect.width) * 100
+        const yPercent = (y / rect.height) * 100
+        
+        
+        setXPosition(xPercent)
+        setYPosition(yPercent)
         setClicked(!clicked)
         setIsOpen(!isOpen)
     }
@@ -30,13 +35,33 @@ const Game = () => {
         { name: 'Wizard', Img: Wizard }
     ]
   return (
-    <div className='flex justify-center'>
-        <img src={GameImage} alt="" onClick={setClickedPosition} className='cursor-crosshair'/>
-        <div className="border w-5 h-5 rounded-full" style={{ top: yPosition, left: xPosition, position: 'absolute', display: clicked ? 'block' : 'none'}}></div>
+    <div className="flex justify-center">
+      <div className="relative inline-block">
+        <img
+          ref={imageRef}
+          src={GameImage}
+          alt=""
+          onClick={setClickedPosition}
+          className="cursor-crosshair"
+        />
+
+        <div
+          className="border w-5 h-5 rounded-full absolute -translate-x-1/2 -translate-y-1/2"
+          style={{
+            top: `${yPosition}%`,
+            left: `${xPosition}%`,
+            display: clicked ? 'block' : 'none'
+          }}
+        ></div>
 
         {isOpen && (
-                <DropDown xPosition={xPosition} yPosition={yPosition} characters={characters}/>
-            )}
+          <DropDown
+            xPosition={xPosition}
+            yPosition={yPosition}
+            characters={characters}
+          />
+        )}
+      </div>
     </div>
   )
 }
