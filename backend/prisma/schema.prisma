@@ -30,6 +30,7 @@ model GameRound {
   endTime   DateTime?
   completed Boolean   @default(false)
   level     Int
+  userName  String?
 
   found FoundCharacter[]
 }
