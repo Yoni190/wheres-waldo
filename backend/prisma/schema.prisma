@@ -17,4 +17,5 @@ model Character {
   name String @unique
   x Float
   y Float
+  level Int
 }
