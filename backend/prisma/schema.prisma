@@ -13,11 +13,18 @@ datasource db {
 }
 
 model Character {
-  id Int @id @default(autoincrement())
-  name String @unique
-  xMin Float
-  xMax Float
-  yMin Float
-  yMax Float
+  id    Int    @id @default(autoincrement())
+  name  String @unique
+  xMin  Float
+  xMax  Float
+  yMin  Float
+  yMax  Float
   level Int
+}
+
+model GameRound {
+  id        Int      @id @default(autoincrement())
+  startTime DateTime
+  endTime   DateTime
+  completed Boolean  @default(false)
 }
