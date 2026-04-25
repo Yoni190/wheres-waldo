@@ -28,6 +28,7 @@ model GameRound {
   id        Int       @id @default(autoincrement())
   startTime DateTime  @default(now())
   endTime   DateTime?
+  duration  Float?
   completed Boolean   @default(false)
   level     Int
   userName  String?
