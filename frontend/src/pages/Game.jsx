@@ -21,6 +21,8 @@ const Game = () => {
 
         const xPercent = (x / rect.width) * 100
         const yPercent = (y / rect.height) * 100
+
+        console.log(xPercent, yPercent)
         
         
         setXPosition(xPercent)
