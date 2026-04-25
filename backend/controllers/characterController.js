@@ -1,14 +1,14 @@
 const { prisma } = require('../lib/prisma.js')
 
 const check = async (req, res) => {
-    if(!req.body.name || !req.body.x || !req.body.y) {
+    if(!req.body.name || !req.body.x || !req.body.y || !req.body.level) {
         return res.status(422).json({ message: 'Please provide necessary data' })
     }
 
-    const { name, x, y } = req.body
+    const { name, x, y, level } = req.body
 
     const character = await prisma.character.findUnique({
-        where: { name }
+        where: { name, level }
     })
 
     if(!character) {
