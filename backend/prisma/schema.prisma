@@ -20,6 +20,8 @@ model Character {
   yMin  Float
   yMax  Float
   level Int
+
+  found FoundCharacter[]
 }
 
 model GameRound {
@@ -28,4 +30,19 @@ model GameRound {
   endTime   DateTime
   completed Boolean  @default(false)
   level     Int
+
+  found FoundCharacter[]
+}
+
+model FoundCharacter {
+  id          Int       @id @default(autoincrement())
+  roundId     Int
+  characterId Int
+  round       GameRound @relation(fields: [roundId], references: [id], onDelete: Cascade)
+  character   Character @relation(fields: [characterId], references: [id], onDelete: Cascade)
+  foundAt     DateTime  @default(now())
+
+  @@unique([roundId, characterId])
+  @@index([roundId])
+  @@index([characterId])
 }
