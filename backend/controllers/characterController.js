@@ -8,7 +8,12 @@ const check = async (req, res) => {
     const { name, x, y, level, roundId } = req.body
 
     const character = await prisma.character.findUnique({
-        where: { name, level }
+        where: { 
+            name_level: {
+                name,
+                level
+            }
+         }
     })
 
     if(!character) {
