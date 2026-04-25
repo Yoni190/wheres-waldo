@@ -1,6 +1,6 @@
 import React from 'react'
 
-const DropDown = ({ xPosition, yPosition, characters }) => {
+const DropDown = ({ xPosition, yPosition, characters, checkCharacter }) => {
   return (
     <div
         className="origin-top-right absolute mt-2 w-56 
@@ -19,6 +19,7 @@ const DropDown = ({ xPosition, yPosition, characters }) => {
                     hover:bg-gray-100 flex items-center gap-3 cursor-pointer"
                     role="menuitem"
                     key={index}
+                    onClick={() => checkCharacter(character.name)}
                 >
                     <img src={character.Img} alt={character.name} width={35} />
                     <p className='text-base'>{character.name}</p>

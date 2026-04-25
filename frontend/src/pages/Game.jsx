@@ -12,6 +12,7 @@ const Game = () => {
     const [yPosition, setYPosition] = useState(0)
     const [isOpen, setIsOpen] = useState(false)
     const imageRef = useRef(null)
+    const [message, setMessage] = useState({})
 
     const setClickedPosition = (e) => {
         const rect = imageRef.current.getBoundingClientRect()
@@ -29,6 +30,31 @@ const Game = () => {
         setYPosition(yPercent)
         setClicked(!clicked)
         setIsOpen(!isOpen)
+    }
+
+    const checkCharacter = async (character) => {
+      console.log(character.toLowerCase())
+      setIsOpen(false)
+
+      try {
+        const res = await fetch('http://localhost:3000/characters/check', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            name: character.toLowerCase(),
+            x: xPosition,
+            y: yPosition,
+            level: 1
+          })
+        })
+
+        const data = await res.json()
+        setMessage({ ok: res.ok, result: data.message})
+      } catch (error) {
+        console.error(error)
+      }
     }
 
     const characters = [
@@ -61,9 +87,11 @@ const Game = () => {
             xPosition={xPosition}
             yPosition={yPosition}
             characters={characters}
+            checkCharacter={checkCharacter}
           />
         )}
       </div>
+      <p>{message.result}</p>
     </div>
   )
 }
