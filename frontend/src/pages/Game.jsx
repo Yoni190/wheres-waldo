@@ -20,8 +20,8 @@ const Game = () => {
         console.log(x, y)
         setXPosition(x)
         setYPosition(y)
-        setClicked(true)
-        setIsOpen(true)
+        setClicked(!clicked)
+        setIsOpen(!isOpen)
     }
 
     const characters = [
