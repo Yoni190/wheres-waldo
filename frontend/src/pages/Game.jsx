@@ -4,6 +4,8 @@ import Waldo from '../assets/waldo.png'
 import Odlaw from '../assets/odlaw.png'
 import Wizard from '../assets/wizard.png'
 import DropDown from '../components/DropDown'
+import { toast } from 'react-toastify'
+
 
 
 const Game = () => {
@@ -12,7 +14,6 @@ const Game = () => {
     const [yPosition, setYPosition] = useState(0)
     const [isOpen, setIsOpen] = useState(false)
     const imageRef = useRef(null)
-    const [message, setMessage] = useState({})
 
     const setClickedPosition = (e) => {
         const rect = imageRef.current.getBoundingClientRect()
@@ -23,7 +24,6 @@ const Game = () => {
         const xPercent = (x / rect.width) * 100
         const yPercent = (y / rect.height) * 100
 
-        console.log(xPercent, yPercent)
         
         
         setXPosition(xPercent)
@@ -33,7 +33,6 @@ const Game = () => {
     }
 
     const checkCharacter = async (character) => {
-      console.log(character.toLowerCase())
       setIsOpen(false)
       setClicked(false)
 
@@ -52,7 +51,18 @@ const Game = () => {
         })
 
         const data = await res.json()
-        setMessage({ ok: res.ok, result: data.message})
+
+        if(res.ok) {
+          toast.success(data.message, {
+            theme: 'colored',
+            autoClose: 1300
+          })
+        } else {
+          toast.error(data.message, {
+            theme: 'colored',
+            autoClose: 1300
+          })
+        }
       } catch (error) {
         console.error(error)
       }
@@ -92,7 +102,6 @@ const Game = () => {
           />
         )}
       </div>
-      <p>{message.result}</p>
     </div>
   )
 }

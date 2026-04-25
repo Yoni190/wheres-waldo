@@ -6,6 +6,7 @@ import Header from './components/Header'
 import NotFound from './pages/NotFound'
 import Game from './pages/Game'
 import Footer from './components/Footer'
+import { ToastContainer } from 'react-toastify'
 
 
 
@@ -25,6 +26,7 @@ function App() {
         </main>
 
         <Footer />
+        <ToastContainer />
       </div>
     </BrowserRouter>
   )
