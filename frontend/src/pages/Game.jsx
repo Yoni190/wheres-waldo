@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import GameImage from '../assets/game.webp'
 import Waldo from '../assets/waldo.png'
 import Odlaw from '../assets/odlaw.png'
@@ -14,6 +14,26 @@ const Game = () => {
     const [yPosition, setYPosition] = useState(0)
     const [isOpen, setIsOpen] = useState(false)
     const imageRef = useRef(null)
+    const hasStarted = useRef(false)
+
+    useEffect(() => {
+      if (hasStarted.current) return
+      hasStarted.current = true
+      const startRound = async () => {
+        await fetch('http://localhost:3000/rounds/start', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            level: 1
+          })
+        })
+      }
+
+      startRound()
+    }, [])
+    
 
     const setClickedPosition = (e) => {
         const rect = imageRef.current.getBoundingClientRect()
