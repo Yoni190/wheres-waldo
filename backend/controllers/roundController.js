@@ -12,6 +12,21 @@ const start = async (req, res) => {
     return res.json({ round: result })
 }
 
+const setName = async (req, res) => {
+    const { username, roundId } = req.body
+    
+
+    await prisma.gameRound.update({
+        where: { id: roundId },
+        data: {
+            userName: username
+        }
+    })
+
+    return res.json({ message: 'Name stored successfully' })
+}
+
 module.exports = {
-    start
+    start,
+    setName
 }

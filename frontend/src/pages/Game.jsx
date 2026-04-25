@@ -5,6 +5,8 @@ import Odlaw from '../assets/odlaw.png'
 import Wizard from '../assets/wizard.png'
 import DropDown from '../components/DropDown'
 import { toast } from 'react-toastify'
+import Modal from '../components/Modal'
+
 
 
 
@@ -16,6 +18,8 @@ const Game = () => {
     const imageRef = useRef(null)
     const hasStarted = useRef(false)
     const [roundId, setRoundId] = useState(0)
+    const [duration, setDuration] = useState(null)
+    const [isModalOpen, setIsModalOpen] = useState(false)
 
     useEffect(() => {
       if (hasStarted.current) return
@@ -83,12 +87,37 @@ const Game = () => {
             theme: 'colored',
             autoClose: 1300
           })
+          const duration = data?.duration
+          if (duration !== undefined && duration !== null) {
+            setDuration(duration)
+            setIsModalOpen(true)
+          }
         } else {
           toast.error(data.message, {
             theme: 'colored',
             autoClose: 1300
           })
         }
+      } catch (error) {
+        console.error(error)
+      }
+    }
+
+    const setName = async (username) => {
+      try {
+        const res = await fetch('http://localhost:3000/rounds/set-name', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            roundId,
+            username
+          })
+        })
+
+        const data = await res.json()
+        console.log(data)
       } catch (error) {
         console.error(error)
       }
@@ -127,6 +156,13 @@ const Game = () => {
             checkCharacter={checkCharacter}
           />
         )}
+        <Modal
+          isModalOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+          title="Game Over"
+          duration={duration}
+          setName={setName}
+        ></Modal>
       </div>
     </div>
   )
