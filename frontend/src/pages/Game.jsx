@@ -29,6 +29,7 @@ const Game = () => {
 
     const [searchParams] = useSearchParams()
     const level = parseInt(searchParams.get('level')) || 1
+    const API_URL = import.meta.env.VITE_API_URL
 
     const levelImages = {
       1: Level1,
@@ -40,7 +41,7 @@ const Game = () => {
       if (hasStarted.current) return
       hasStarted.current = true
       const startRound = async () => {
-        const res = await fetch('http://localhost:3000/rounds/start', {
+        const res = await fetch(`${API_URL}/rounds/start`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
@@ -56,7 +57,7 @@ const Game = () => {
       }
 
        const getUsers = async () => {
-          const res = await fetch(`http://localhost:3000/rounds/${level}`)
+          const res = await fetch(`${API_URL}/rounds/${level}`)
 
           const data = await res.json()
           setUsers(data.users)
@@ -91,7 +92,7 @@ const Game = () => {
       setClicked(false)
 
       try {
-        const res = await fetch('http://localhost:3000/characters/check', {
+        const res = await fetch(`${API_URL}/characters/check`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -130,7 +131,7 @@ const Game = () => {
 
     const setName = async (username) => {
       try {
-        const res = await fetch('http://localhost:3000/rounds/set-name', {
+        const res = await fetch(`${API_URL}/rounds/set-name`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
