@@ -35,6 +35,7 @@ const Game = () => {
     const checkCharacter = async (character) => {
       console.log(character.toLowerCase())
       setIsOpen(false)
+      setClicked(false)
 
       try {
         const res = await fetch('http://localhost:3000/characters/check', {
