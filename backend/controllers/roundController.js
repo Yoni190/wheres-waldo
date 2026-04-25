@@ -26,7 +26,21 @@ const setName = async (req, res) => {
     return res.json({ message: 'Name stored successfully' })
 }
 
+const index = async (req, res) => {
+    const level = parseInt(req.params.level)
+
+    const users = await prisma.gameRound.findMany({
+        where: { level, completed: true },
+        orderBy: { duration: 'asc' },
+        select: { duration: true, userName: true},
+        take: 10
+    })
+
+    return res.json({ users })
+}
+
 module.exports = {
     start,
-    setName
+    setName,
+    index
 }
