@@ -19,7 +19,7 @@ const Game = () => {
     }
   return (
     <div className='flex justify-center'>
-        <img src={GameImage} alt="" onClick={setClickedPosition}/>
+        <img src={GameImage} alt="" onClick={setClickedPosition} className='cursor-crosshair'/>
         <div className="border w-5 h-5 rounded-full" style={{ top: yPosition, left: xPosition, position: 'absolute', display: clicked ? 'block' : 'none'}}></div>
     </div>
   )
