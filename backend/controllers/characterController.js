@@ -34,15 +34,21 @@ const check = async (req, res) => {
         const isCompleted = characters.length === foundCharacters.length
 
         if(isCompleted) {
-            await prisma.gameRound.update({
+            const endTime = new Date()
+            const gameround = await prisma.gameRound.update({
                 where: { id: roundId },
                 data: {
-                    endTime: new Date(),
+                    endTime,
                     completed: true
+                },
+                select: {
+                    startTime: true
                 }
             })
 
-            return res.json({ message: 'Game Completed' })
+            const duration = ((endTime - gameround.startTime) / 1000).toFixed(1)
+
+            return res.json({ message: 'Game Completed', duration })
         }
         return res.json({ message: 'Correct' })
     }
