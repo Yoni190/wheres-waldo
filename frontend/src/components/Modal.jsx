@@ -35,8 +35,25 @@ const Modal = ({ isModalOpen, onClose, title, duration, setName }) => {
           </p>
         </div>
 
-        <input type="text" name="username" id="username" value={username} onChange={(e) => setUsername(e.target.value)} />
-        <button onClick={() => setName(username)}>Submit</button>
+        <div className="flex flex-col gap-3 mt-4">
+            <input
+                type="text"
+                name="username"
+                id="username"
+                placeholder="Enter your name..."
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 transition"
+            />
+
+            <button
+                onClick={() => setName(username)}
+                className="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-2 rounded-lg transition disabled:opacity-50 disabled:cursor-not-allowed"
+                disabled={!username.trim()}
+            >
+                Submit Score
+            </button>
+        </div>
       </div>
     </div>
   );
