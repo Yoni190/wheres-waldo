@@ -22,6 +22,7 @@ const Game = () => {
     const [duration, setDuration] = useState(null)
     const [isModalOpen, setIsModalOpen] = useState(false)
     const navigate = useNavigate()
+    const [users, setUsers] = useState([])
 
     useEffect(() => {
       if (hasStarted.current) return
@@ -42,8 +43,18 @@ const Game = () => {
         console.log(data)
       }
 
+       const getUsers = async () => {
+          const res = await fetch(`http://localhost:3000/rounds/1`)
+
+          const data = await res.json()
+          setUsers(data.users)
+        }
+
+        getUsers()
+
       startRound()
     }, [])
+    
     
 
     const setClickedPosition = (e) => {
@@ -133,7 +144,7 @@ const Game = () => {
         { name: 'Wizard', Img: Wizard }
     ]
   return (
-    <div className="flex justify-center">
+    <div className="flex flex-col items-center gap-6">
       <div className="relative inline-block">
         <img
           ref={imageRef}
@@ -167,6 +178,36 @@ const Game = () => {
           duration={duration}
           setName={setName}
         ></Modal>
+      </div>
+      <div className="w-full max-w-md bg-white rounded-xl shadow p-4">
+        <h2 className="text-lg font-bold mb-3 text-center">
+          Leaderboard
+        </h2>
+
+        <table className="w-full text-sm">
+          <thead>
+            <tr className="text-gray-500 border-b">
+              <th className="text-left py-2">#</th>
+              <th className="text-left py-2">Name</th>
+              <th className="text-right py-2">Time (s)</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            {users.map((user, index) => (
+              <tr
+                key={index}
+                className="border-b last:border-none hover:bg-gray-50"
+              >
+                <td className="py-2 font-semibold">{index + 1}</td>
+                <td className="py-2">{user.userName}</td>
+                <td className="py-2 text-right text-green-600 font-medium">
+                  {user.duration}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
     </div>
   )
