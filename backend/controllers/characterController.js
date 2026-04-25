@@ -22,6 +22,28 @@ const check = async (req, res) => {
                 roundId,
             }
         })
+
+        const characters = await prisma.character.findMany({
+            where: { level }
+        })
+
+        const foundCharacters = await prisma.foundCharacter.findMany({
+            where: { roundId }
+        })
+
+        const isCompleted = characters.length === foundCharacters.length
+
+        if(isCompleted) {
+            await prisma.gameRound.update({
+                where: { id: roundId },
+                data: {
+                    endTime: new Date(),
+                    completed: true
+                }
+            })
+
+            return res.json({ message: 'Game Completed' })
+        }
         return res.json({ message: 'Correct' })
     }
 
