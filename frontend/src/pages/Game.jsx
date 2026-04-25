@@ -6,6 +6,7 @@ import Wizard from '../assets/wizard.png'
 import DropDown from '../components/DropDown'
 import { toast } from 'react-toastify'
 import Modal from '../components/Modal'
+import { useNavigate } from 'react-router'
 
 
 
@@ -20,6 +21,7 @@ const Game = () => {
     const [roundId, setRoundId] = useState(0)
     const [duration, setDuration] = useState(null)
     const [isModalOpen, setIsModalOpen] = useState(false)
+    const navigate = useNavigate()
 
     useEffect(() => {
       if (hasStarted.current) return
@@ -118,6 +120,8 @@ const Game = () => {
 
         const data = await res.json()
         console.log(data)
+        navigate('/')
+        toast.success(data.message)
       } catch (error) {
         console.error(error)
       }
