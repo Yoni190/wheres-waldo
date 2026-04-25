@@ -5,6 +5,8 @@ import './App.css'
 import Header from './components/Header'
 import NotFound from './pages/NotFound'
 import Game from './pages/Game'
+import Footer from './components/Footer'
+
 
 
 function App() {
@@ -17,6 +19,7 @@ function App() {
         <Route path='/game' element={<Game />} />
         <Route path='*' element={<NotFound />} />
       </Routes>
+      <Footer />
     </BrowserRouter>
   )
 }
