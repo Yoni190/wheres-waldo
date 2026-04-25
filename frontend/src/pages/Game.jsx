@@ -1,12 +1,13 @@
 import React, { useEffect, useRef, useState } from 'react'
-import GameImage from '../assets/game.webp'
+import Level1 from '../assets/game.webp'
+import Level2 from '../assets/level-2.webp'
 import Waldo from '../assets/waldo.png'
 import Odlaw from '../assets/odlaw.png'
 import Wizard from '../assets/wizard.png'
 import DropDown from '../components/DropDown'
 import { toast } from 'react-toastify'
 import Modal from '../components/Modal'
-import { useNavigate } from 'react-router'
+import { useNavigate, useSearchParams } from 'react-router'
 
 
 
@@ -24,6 +25,14 @@ const Game = () => {
     const navigate = useNavigate()
     const [users, setUsers] = useState([])
 
+    const [searchParams] = useSearchParams()
+    const level = parseInt(searchParams.get('level')) || 1
+
+    const levelImages = {
+      1: Level1,
+      2: Level2
+    }
+
     useEffect(() => {
       if (hasStarted.current) return
       hasStarted.current = true
@@ -34,7 +43,7 @@ const Game = () => {
             'Content-Type': 'application/json'
           },
           body: JSON.stringify({
-            level: 1
+            level
           })
         })
 
@@ -44,14 +53,13 @@ const Game = () => {
       }
 
        const getUsers = async () => {
-          const res = await fetch(`http://localhost:3000/rounds/1`)
+          const res = await fetch(`http://localhost:3000/rounds/${level}`)
 
           const data = await res.json()
           setUsers(data.users)
         }
 
-        getUsers()
-
+      getUsers()
       startRound()
     }, [])
     
@@ -88,7 +96,7 @@ const Game = () => {
             name: character.toLowerCase(),
             x: xPosition,
             y: yPosition,
-            level: 1,
+            level,
             roundId
           })
         })
@@ -138,17 +146,22 @@ const Game = () => {
       }
     }
 
-    const characters = [
+    const characters = {
+      1: [
         { name: 'Waldo', Img: Waldo },
         { name: 'Odlaw', Img: Odlaw },
         { name: 'Wizard', Img: Wizard }
-    ]
+      ],
+      2: [
+        { name: 'Waldo', Img: Waldo }
+      ]
+    }
   return (
     <div className="flex flex-col items-center gap-6">
       <div className="relative inline-block">
         <img
           ref={imageRef}
-          src={GameImage}
+          src={levelImages[level]}
           alt=""
           onClick={setClickedPosition}
           className="cursor-crosshair"
@@ -167,7 +180,7 @@ const Game = () => {
           <DropDown
             xPosition={xPosition}
             yPosition={yPosition}
-            characters={characters}
+            characters={characters[level]}
             checkCharacter={checkCharacter}
           />
         )}
