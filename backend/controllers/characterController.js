@@ -15,11 +15,11 @@ const check = async (req, res) => {
         return res.status(400).json({ message: 'Character not found' })
     }
 
-    if(character.x !== x && !character.y !== y) {
-        return res.status(400).json({ message: 'Wrong coordinates' })
+    if(character.xMax >= x && character.xMin <= x && character.yMax <= y && character.yMin >=y) {
+        return res.json({ message: 'Correct' })
     }
 
-    res.json({ message: 'Success' })
+    res.status(400).json({ message: 'Wrong Coordinates' })
 }
 
 module.exports = {
