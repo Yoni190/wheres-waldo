@@ -15,12 +15,13 @@ const Game = () => {
     const [isOpen, setIsOpen] = useState(false)
     const imageRef = useRef(null)
     const hasStarted = useRef(false)
+    const [roundId, setRoundId] = useState(0)
 
     useEffect(() => {
       if (hasStarted.current) return
       hasStarted.current = true
       const startRound = async () => {
-        await fetch('http://localhost:3000/rounds/start', {
+        const res = await fetch('http://localhost:3000/rounds/start', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
@@ -29,6 +30,10 @@ const Game = () => {
             level: 1
           })
         })
+
+        const data = await res.json()
+        setRoundId(data.round.id)
+        console.log(data)
       }
 
       startRound()
@@ -66,7 +71,8 @@ const Game = () => {
             name: character.toLowerCase(),
             x: xPosition,
             y: yPosition,
-            level: 1
+            level: 1,
+            roundId
           })
         })
 

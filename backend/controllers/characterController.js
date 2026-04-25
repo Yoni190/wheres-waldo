@@ -5,7 +5,7 @@ const check = async (req, res) => {
         return res.status(422).json({ message: 'Please provide necessary data' })
     }
 
-    const { name, x, y, level } = req.body
+    const { name, x, y, level, roundId } = req.body
 
     const character = await prisma.character.findUnique({
         where: { name, level }
@@ -16,6 +16,12 @@ const check = async (req, res) => {
     }
 
     if(character.xMax >= x && character.xMin <= x && character.yMax <= y && character.yMin >=y) {
+        await prisma.foundCharacter.create({
+            data: {
+                characterId: character.id,
+                roundId,
+            }
+        })
         return res.json({ message: 'Correct' })
     }
 
