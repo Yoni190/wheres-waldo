@@ -2,11 +2,13 @@ import React from 'react'
 import { Link } from 'react-router'
 import Level1 from '../assets/game.webp'
 import Level2 from '../assets/level-2.webp'
+import Level3 from '../assets/level-3.webp'
 
 const Home = () => {
   const levels = [
     { name: 'Level 1', img: Level1, rotate: '-rotate-2', offset: 'mt-0' },
-    { name: 'Level 2', img: Level2, rotate: 'rotate-3', offset: 'mt-16' }
+    { name: 'Level 2', img: Level2, rotate: 'rotate-3', offset: 'mt-16' },
+    { name: 'Level 3', img: Level3, rotate: 'rotate-4', offset: 'mt-32' },
   ]
 
   return (

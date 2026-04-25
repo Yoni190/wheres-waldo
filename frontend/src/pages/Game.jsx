@@ -1,9 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react'
 import Level1 from '../assets/game.webp'
 import Level2 from '../assets/level-2.webp'
+import Level3 from '../assets/level-3.webp'
 import Waldo from '../assets/waldo.png'
 import Odlaw from '../assets/odlaw.png'
 import Wizard from '../assets/wizard.png'
+import Wenda from '../assets/wenda.png'
 import DropDown from '../components/DropDown'
 import { toast } from 'react-toastify'
 import Modal from '../components/Modal'
@@ -30,7 +32,8 @@ const Game = () => {
 
     const levelImages = {
       1: Level1,
-      2: Level2
+      2: Level2,
+      3: Level3
     }
 
     useEffect(() => {
@@ -74,6 +77,7 @@ const Game = () => {
         const xPercent = (x / rect.width) * 100
         const yPercent = (y / rect.height) * 100
 
+        console.log(xPercent, yPercent)
         
         
         setXPosition(xPercent)
@@ -154,6 +158,12 @@ const Game = () => {
       ],
       2: [
         { name: 'Waldo', Img: Waldo }
+      ],
+      3: [
+        { name: 'Waldo', Img: Waldo },
+        { name: 'Odlaw', Img: Odlaw },
+        { name: 'Wizard', Img: Wizard },
+        { name: 'Wenda', Img: Wenda }
       ]
     }
   return (
