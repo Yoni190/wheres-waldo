@@ -13,13 +13,19 @@ function App() {
 
   return (
     <BrowserRouter>
-      <Header />
-      <Routes>
-        <Route path='/' element={<Home />} />
-        <Route path='/game' element={<Game />} />
-        <Route path='*' element={<NotFound />} />
-      </Routes>
-      <Footer />
+      <div className="min-h-screen flex flex-col">
+        <Header />
+
+        <main className="flex-grow">
+          <Routes>
+            <Route path='/' element={<Home />} />
+            <Route path='/game' element={<Game />} />
+            <Route path='*' element={<NotFound />} />
+          </Routes>
+        </main>
+
+        <Footer />
+      </div>
     </BrowserRouter>
   )
 }
