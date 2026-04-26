@@ -26,6 +26,7 @@ const Game = () => {
     const [isModalOpen, setIsModalOpen] = useState(false)
     const navigate = useNavigate()
     const [users, setUsers] = useState([])
+    const [loading, setLoading] = useState(true)
 
     const [searchParams] = useSearchParams()
     const level = parseInt(searchParams.get('level')) || 1
@@ -61,6 +62,7 @@ const Game = () => {
 
           const data = await res.json()
           setUsers(data.users)
+          setLoading(false)
         }
 
       getUsers()
@@ -217,20 +219,33 @@ const Game = () => {
             </tr>
           </thead>
 
-          <tbody>
-            {users.map((user, index) => (
-              <tr
-                key={index}
-                className="border-b last:border-none hover:bg-gray-50"
-              >
-                <td className="py-2 font-semibold">{index + 1}</td>
-                <td className="py-2">{user.userName}</td>
-                <td className="py-2 text-right text-green-600 font-medium">
-                  {user.duration}
+          {loading ? (
+            <tbody>
+              <tr>
+                <td colSpan={3} className='text-center py-4'>
+                  <div className="flex justify-center items-center py-4">
+                    <div className="w-8 h-8 border-4 border-gray-300 border-t-blue-500 rounded-full animate-spin"></div>
+                  </div>
                 </td>
               </tr>
-            ))}
-          </tbody>
+            </tbody>
+          ) : (
+            <tbody>
+              {users.map((user, index) => (
+                <tr
+                  key={index}
+                  className="border-b last:border-none hover:bg-gray-50"
+                >
+                  <td className="py-2 font-semibold">{index + 1}</td>
+                  <td className="py-2">{user.userName}</td>
+                  <td className="py-2 text-right text-green-600 font-medium">
+                    {user.duration}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          )}
+          
         </table>
       </div>
     </div>
